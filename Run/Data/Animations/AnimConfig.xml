@@ -1,0 +1,192 @@
+<AnimationStates>
+
+   <!-- Movement States -->
+    <!-- Idle -->
+  <AnimationState name="idle" clip="Data/Animations/XBot/StandingIdle.fbx">
+    <Transitions>
+      <Transition   name="walk"		animationState="walk"            fadeDurationMs="1000" />
+      <Transition   name="jump"		animationState="jump"            fadeDurationMs="1000" />
+      <Transition   name="crouch"	animationState="standToCrouch"   fadeDurationMs="10" />
+      <Transition   name="hang"		animationState="idleToLedgeGrab" fadeDurationMs="1000" />
+      <TransitionEnd				animationState="idle" />
+    </Transitions>
+  </AnimationState>
+
+	<!-- Walk -->
+  <AnimationState name="walk" clip="Data/Animations/XBot/Walk.fbx">
+    <Transitions>
+      <Transition		name="idle"				animationState="idle"			 fadeDurationMs="1000"/>
+      <Transition		name="run"				animationState="run"			 fadeDurationMs="1000"/>
+      <Transition		name="jump"				animationState="jump"			 fadeDurationMs="1000"/>
+	  <Transition		name="hang"				animationState="idleToLedgeGrab" fadeDurationMs="1000" />
+	  <Transition		name="walkingEdgeSlip"  animationState="walkingEdgeSlip" fadeDurationMs="1000" />
+	  <Transition		name="idleDropToFreeHang"  animationState="idleDropToFreeHang" fadeDurationMs="1000" />
+      <TransitionEnd							animationState="walk" />
+    </Transitions>
+  </AnimationState>
+
+	<!-- Run -->
+  <AnimationState name="run" clip="Data/Animations/XBot/Run.fbx">
+    <Transitions>
+      <Transition   name="idle"			animationState="idle"			fadeDurationMs="1000"/>
+      <Transition   name="walk"			animationState="walk"			fadeDurationMs="1000"/>
+      <Transition   name="jump"			animationState="runningJump"	fadeDurationMs="100"/>
+	  <Transition   name="vault"		animationState="vault"			fadeDurationMs="100" />
+	  <Transition   name="runStop"		animationState="runStop"		fadeDurationMs="100" />
+	  <Transition   name="runningSlide" animationState="runningSlide"	fadeDurationMs="100" />
+      <TransitionEnd					animationState="run" />
+    </Transitions>
+  </AnimationState>
+	
+  <!-- Running Slide -->
+	<AnimationState name="runningSlide" clip="Data/Animations/XBot/RunningSlide.fbx" removeRootMotion="true" >
+		<Transitions>
+			<Transition	name="run"	animationState="run"	fadeDurationMs="100"/>
+		</Transitions>
+	</AnimationState>
+
+  <!-- Run Stop -->
+  <AnimationState name="runStop" clip="Data/Animations/XBot/RunStop.fbx" removeRootMotion="true" >
+  	<Transitions>
+  		<Transition  name="idle"  animationState="idle" fadeDurationMs="0"/>
+  	</Transitions>
+  </AnimationState>
+
+	<!-- Jump -->
+  <AnimationState name="jump" clip="Data/Animations/XBot/Jump.fbx">
+	  <Transitions>
+		  <Transition   name="idle"	   animationState="idle" fadeDurationMs="100"/>
+		  <Transition   name="walk"	   animationState="walk" fadeDurationMs="100"/>
+		  <Transition	name="run"	   animationState="run"	 fadeDurationMs="100"/>
+	  </Transitions>
+  </AnimationState>
+
+	<!-- Running Jump -->
+	<AnimationState name="runningJump" clip="Data/Animations/XBot/RunningJump.fbx" removeRootMotion="true">
+		<Transitions>
+			<PopOutTransition fadeDurationMs="1000" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Crouched Idle -->
+  <AnimationState name="crouchedIdle" clip="Data/Animations/XBot/CrouchIdle.fbx">
+    <Transitions>
+      <Transition   name="idle" animationState="crouchToStand" fadeDurationMs="10" />
+      <Transition   name="walk"  animationState="crouchedWalk" fadeDurationMs="1000" />
+      <TransitionEnd             animationState="crouchedIdle" />
+    </Transitions>
+  </AnimationState>
+
+	<!-- Crouched Walk -->
+  <AnimationState name="crouchedWalk" clip="Data/Animations/XBot/CrouchWalk.fbx">
+    <Transitions>
+      <Transition   name="crouch" animationState="crouchedIdle" fadeDurationMs="1000" />
+      <TransitionEnd            animationState="crouchedWalk" />
+    </Transitions>
+  </AnimationState>
+
+	<!-- Stand to Crouch -->
+  <AnimationState name="standToCrouch" clip="Data/Animations/XBot/StandToCrouch.fbx">
+    <Transitions>
+      <TransitionEnd animationState="crouchedIdle" fadeDurationMs="1000"/>
+    </Transitions>
+  </AnimationState>
+
+	<!-- Crouched To Stand -->
+  <AnimationState name="crouchToStand" clip="Data/Animations/XBot/CrouchedToStand.fbx">
+    <Transitions>
+      <TransitionEnd animationState="idle" fadeDurationMs="1000"/>
+    </Transitions>
+  </AnimationState>
+
+	
+	<!-- Parkour States -->
+	<!-- Vaulting -->
+	<AnimationState name="vault" clip="Data/Animations/XBot/Parkour/Vault2Hands.fbx" removeRootMotion="true">
+		<Transitions>
+			<Transition   name="idle" animationState="idle" fadeDurationMs="100"/>
+			<Transition   name="walk" animationState="walk" fadeDurationMs="100"/>
+			<Transition	  name="run"  animationState="run"	fadeDurationMs="100"/>
+		</Transitions>
+	</AnimationState>
+
+	<!-- Idle to Ledge Grab -->
+	<AnimationState name="idleToLedgeGrab" clip="Data/Animations/XBot/Parkour/IdleToBracedHang.fbx" removeRootMotion="true">
+		<Transitions>
+			<TransitionEnd animationState="hang" fadeDurationMs="1000"/>
+		</Transitions>
+	</AnimationState>
+
+	<!-- Hang -->
+	<AnimationState name="hang" clip="Data/Animations/XBot/Parkour/HangingIdle.fbx" removeRootMotion="true">
+		<Transitions>
+			<Transition   name="hangDrop" animationState="hangToIdle" fadeDurationMs="500"/>
+			<Transition   name="shimmyRight" animationState="shimmyRight" fadeDurationMs="10"/>
+			<Transition   name="shimmyLeft" animationState="shimmyLeft" fadeDurationMs="10"/>
+			<Transition    name="climbOver" animationState="climbOver" fadeDurationMs="100"/>
+			<TransitionEnd animationState="hang" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Hang To Idle -->
+	<AnimationState name="hangToIdle" clip="Data/Animations/XBot/Parkour/BracedHangToIdle.fbx" removeRootMotion="true">
+		<Transitions>
+			<Transition    name="idle" animationState="idle" fadeDurationMs="10"/>
+			<TransitionEnd animationState="idle" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Shimmy Right -->
+	<AnimationState name="shimmyRight" clip="Data/Animations/XBot/Parkour/BracedHangShimmyRight.fbx" removeRootMotion="true">
+		<Transitions>
+			<TransitionEnd animationState="hang" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Shimmy Left -->
+	<AnimationState name="shimmyLeft" clip="Data/Animations/XBot/Parkour/BracedHangShimmyLeft.fbx" removeRootMotion="true">
+		<Transitions>
+			<TransitionEnd animationState="hang" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Climb Over -->
+	<AnimationState name="climbOver" clip="Data/Animations/XBot/Parkour/BracedHangToClimbOver.fbx" removeRootMotion="false">
+		<Transitions>
+			<TransitionEnd animationState="crouchToStand" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Walking Edge Slip -->
+	<AnimationState name="walkingEdgeSlip" clip="Data/Animations/XBot/Parkour/WalkingEdgeSlip.fbx" removeRootMotion="false">
+		<Transitions>
+			<Transition name="idleToActionIdle" animationState="idleToActionIdle" fadeDurationMs="0" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Idle to Action Idle -->
+	<AnimationState name="idleToActionIdle" clip="Data/Animations/XBot/Parkour/StandingIdleToActionIdle.fbx" removeRootMotion="false">
+		<Transitions>
+			<Transition name="idle" animationState="idle" fadeDurationMs="0" />
+		</Transitions>
+	</AnimationState>
+	
+	<!-- Idle drop to Free hang -->
+	<AnimationState name="idleDropToFreeHang" clip="Data/Animations/XBot/Parkour/IdleDropToFreehang.fbx" removeRootMotion="true">
+		<Transitions>
+			<TransitionEnd animationState="freeHangToBracedHang" />
+		</Transitions>
+	</AnimationState>
+
+	<!-- Free hang to Braced hang -->
+	<AnimationState name="freeHangToBracedHang" clip="Data/Animations/XBot/Parkour/FreeHangToBraced.fbx" removeRootMotion="false">
+		<Transitions>
+			<Transition name="hang" animationState="hang" fadeDurationMs="0" />
+		</Transitions>
+	</AnimationState>
+
+
+</AnimationStates>
+
+
+

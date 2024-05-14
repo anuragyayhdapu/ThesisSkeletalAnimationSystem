@@ -1,0 +1,8 @@
+Questions:
+----------
+
+1. Should I try to fix the bugs with the current animation before adding more ?
+- In my current ledge grab and vaulting, I am seeing a lot of polish is required. 
+- But i also miss a lot of other animations as well.
+
+- I think I should add more stuff... that will reveal even more stuff to fix.

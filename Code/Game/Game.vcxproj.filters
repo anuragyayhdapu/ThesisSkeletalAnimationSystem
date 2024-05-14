@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Gameplay">
+      <UniqueIdentifier>{76bf64de-f1ff-45a5-8f4e-fbbfeacf42b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{5ba76994-6ec9-4fc9-b996-2468b1a3a90d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Readme">
+      <UniqueIdentifier>{d992f67b-03b4-410b-b44e-7adb4e7796bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modes">
+      <UniqueIdentifier>{d88be51a-41cf-4441-bdd0-1a7a0c1f4bd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gameplay\Movement States">
+      <UniqueIdentifier>{caa17d76-3524-4fe3-9e38-e8983b985958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modes\Mesh &amp; Skinning">
+      <UniqueIdentifier>{ad159f23-5908-4192-82d6-69c66604f6f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modes\Animation">
+      <UniqueIdentifier>{33562fd1-24dd-44da-99a8-fb65e3debb19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modes\Quaternion">
+      <UniqueIdentifier>{7e1c3185-4bea-4cd2-a644-7b99d476203d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Modes\Movement &amp; Parkour">
+      <UniqueIdentifier>{a25974c5-a6cb-477c-9e20-a39505cf8ab3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main_Windows.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCommon.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdPersonController.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationController.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="GameVaultingTest.cpp">
+      <Filter>Modes\Movement &amp; Parkour</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLedgeGrabTest.cpp">
+      <Filter>Modes\Movement &amp; Parkour</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkourMovementStates.cpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementState.cpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkourLedgeHangStates.cpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkourClimbStates.cpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSkinning.cpp">
+      <Filter>Modes\Mesh &amp; Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAdditiveBlending.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBasicAnimationPlayback.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCrossfadeAnimationWithController.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCrossfadeAnimationSmoothLinear.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCrossfadeAnimationLastFrame.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePoseBlending.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDefaultPose.cpp">
+      <Filter>Modes\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameQuaternionUnitTest.cpp">
+      <Filter>Modes\Quaternion</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBasicMovement.cpp">
+      <Filter>Modes\Movement &amp; Parkour</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoadMesh.cpp">
+      <Filter>Modes\Mesh &amp; Skinning</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFinalShowcase.cpp">
+      <Filter>Modes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="App.hpp">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCommon.hpp">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineBuildPreferences.hpp">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdPersonController.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationState.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationController.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="GameVaultingTest.hpp">
+      <Filter>Modes\Movement &amp; Parkour</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLedgeGrabTest.hpp">
+      <Filter>Modes\Movement &amp; Parkour</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkourMovementStates.hpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementState.hpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkourLedgeHangStates.hpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClInclude>
+    <ClInclude Include="ParkourClimbStates.hpp">
+      <Filter>Gameplay\Movement States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSkinning.hpp">
+      <Filter>Modes\Mesh &amp; Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAdditiveBlending.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBasicAnimationPlayback.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCrossfadeAnimationWithController.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCrossfadeAnimationSmoothLinear.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCrossfadeAnimationLastFrame.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePoseBlending.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefaultPose.hpp">
+      <Filter>Modes\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameQuaternionUnitTest.hpp">
+      <Filter>Modes\Quaternion</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBasicMovement.hpp">
+      <Filter>Modes\Movement &amp; Parkour</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoadMesh.hpp">
+      <Filter>Modes\Mesh &amp; Skinning</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFinalShowcase.hpp">
+      <Filter>Modes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Run\Data\Shaders\Default.hlsl">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\.clang-format" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\ReadMe.txt">
+      <Filter>Readme</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Run\Data\GameConfig.xml">
+      <Filter>Data</Filter>
+    </Xml>
+    <Xml Include="..\..\Run\Data\Animations\AnimConfig.xml">
+      <Filter>Data</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Run\Data\Shaders\SpriteLit.hlsl">
+      <Filter>Data</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
