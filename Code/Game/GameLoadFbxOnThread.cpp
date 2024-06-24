@@ -2,9 +2,11 @@
 #include "Game/AnimationState.hpp"
 #include "Game/AnimationController.hpp"
 #include "Game/Player.hpp"
-#include "Game/GameFinalShowcase.hpp"
+#include "Game/GameLoadFbxOnThread.hpp"
 #include "Game/App.hpp"
 
+#include "Engine/Core/DevConsole.hpp"
+#include "Engine/Core/JobSystem.hpp"
 #include "Engine/Animation/FbxFileImporter.hpp"
 #include "Engine/Renderer/DebugRenderSystem.hpp"
 #include "Engine/Window/Window.hpp"
@@ -12,6 +14,7 @@
 #include "Engine/Core/Clock.hpp"
 #include "Engine/Core/StringUtils.hpp"
 #include "Engine/Core/VertexUtils.hpp"
+#include "Engine/Core/EngineCommon.hpp"
 
 
 constexpr int			MAX_VERTEXAS		 = 3;
@@ -21,30 +24,17 @@ constexpr unsigned char MAX_TEST_COLOR_VALUE = 255;
 extern App* g_theApp;
 
 
-void GameFinalShowcase::Startup()
+
+void JobLoadCharacter::Execute()
 {
-	// Testing , remove later
-	//-----------------------------------------------------------------------------------------------------
-	//-----------------------------------------------------------------------------------------------------
-	Quaternion qOriginal	   = Quaternion::MakeFromAxisOfRotationAndAngleDegrees( Vec3( 0.f, 0.f, 1.f ), 30.f );
-	Mat44	   rotationMatrix = Mat44::CreateZRotationDegrees( 30.f );
-	Quaternion qDerived		   = Quaternion::MakeFromMatrix( rotationMatrix );
+	g_theDevConsole->AddLine( Rgba8::ORANGE, "loading mesh data" );
 
-	qOriginal = Quaternion::MakeFromAxisOfRotationAndAngleDegrees( Vec3( 0.f, 1.f, 0.f ), 45.f );
-	rotationMatrix			   = Mat44::CreateYRotationDegrees( 45.f );
-	qDerived				   = Quaternion::MakeFromMatrix( rotationMatrix );
-
-	Vec3 axisOfRotation		   = Vec3( 3.f, 4.f, 5.f );
-	axisOfRotation.Normalize();
-	qOriginal	   = Quaternion::MakeFromAxisOfRotationAndAngleDegrees( axisOfRotation, 657.f );
-	rotationMatrix = qOriginal.GetAsMatrix_XFwd_YLeft_ZUp();
-	//rotationMatrix			   = Mat44::CreateYRotationDegrees( 45.f );
-	qDerived				   = Quaternion::MakeFromMatrix( rotationMatrix );
-	//-----------------------------------------------------------------------------------------------------
-	//-----------------------------------------------------------------------------------------------------
+	g_theCharacter->LoadMeshData();
+}
 
 
-
+void GameLoadFbxOnThread::Startup()
+{
 	// set camera dimensions
 	m_screenCamera.SetOrthographicView( SCREEN_BOTTOM_LEFT_ORTHO, SCREEN_TOP_RIGHT_ORTHO );
 
@@ -59,27 +49,39 @@ void GameFinalShowcase::Startup()
 
 	InitLightConstants();
 
-	AnimationState::LoadAnimationStateFromXML( "Data/Animations/AnimConfig.xml" );
-
-	g_theCharacter = new Character();
-	g_theCharacter->m_map = m_map;
-	g_theCharacter->Startup();
-	g_theCharacter->CreateVerts();
-
-	g_theThirdPersonController = new ThirdPersonController();
-
-	g_theAnimationController = new AnimationController();
-	g_theAnimationController->Startup();
-
-
-	
-
-
+	StartLoadAnimationData();
 }
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::Shutdown()
+void GameLoadFbxOnThread::DeferedStartupAfterLoadingAnimationData()
+{
+	g_theCharacter						= new Character();
+	g_theCharacter->m_map				= m_map;
+	g_theCharacter->m_lightingConstants = &m_lightConstants;
+	g_theCharacter->Startup();
+
+	g_theJobSystem->PostNewJob( new JobLoadCharacter() );
+}
+
+
+//-------------------------------------------------------------------------------------------------
+void GameLoadFbxOnThread::DeferedStartupAfterLoadingMeshData()
+{
+	g_theDevConsole->ToggleOpen( false );
+
+	g_theCharacter->CreateVerts();
+
+	g_theThirdPersonController = new ThirdPersonController();
+
+	g_theAnimationController   = new AnimationController();
+	g_theAnimationController->Startup();
+}
+
+
+
+//----------------------------------------------------------------------------------------------------------
+void GameLoadFbxOnThread::Shutdown()
 {
 	delete m_player;
 
@@ -96,11 +98,19 @@ void GameFinalShowcase::Shutdown()
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::Update()
+void GameLoadFbxOnThread::Update()
 {
+	PrintDebugScreenMessage();
+
+	UpdateLoadedAnimationData();
+	if ( !m_isAllAnimationDataLoaded )
+		return;
+
+	if ( !m_isAllMeshDataLoaded )
+		return;
+
 	UpdateGameState();
 	UpdatePlayer();
-	PrintDebugScreenMessage();
 	UpdateLightConstants();
 
 	g_theThirdPersonController->Update();
@@ -109,30 +119,36 @@ void GameFinalShowcase::Update()
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::Render() const
+void GameLoadFbxOnThread::Render() const
 {
 	g_theRenderer->ClearScreen( m_backGroundColor );
 
-	//-------------------------------------------------------------------------
-	// world camera (for entities)
-	g_theRenderer->BeginCamera( *( g_theThirdPersonController->m_worldCamera ) );
+	if (m_isAllAnimationDataLoaded && m_isAllMeshDataLoaded)
+	{
+		//-------------------------------------------------------------------------
+		// world camera (for entities)
+		g_theRenderer->BeginCamera( *( g_theThirdPersonController->m_worldCamera ) );
 
-	RenderGridLines();
+		RenderGridLines();
 
-	DebugRenderWorld( *( g_theThirdPersonController->m_worldCamera ) );
+		DebugRenderWorld( *( g_theThirdPersonController->m_worldCamera ) );
 
-	g_theThirdPersonController->Render();
-	g_theCharacter->Render();
+		g_theThirdPersonController->Render();
+		g_theCharacter->Render();
 
-	RenderObstacle();
+		RenderObstacle();
+	}
 
 	//-------------------------------------------------------------------------
 	// screen camera (for HUD / UI)
 	g_theRenderer->BeginCamera( m_screenCamera ); 
 	// add text / UI code here
 
-	g_theAnimationController->DebugRender();
-	g_theCharacter->DebugRenderUI();
+	if (m_isAllAnimationDataLoaded && m_isAllMeshDataLoaded)
+	{
+		g_theAnimationController->DebugRender();
+		g_theCharacter->DebugRenderUI();
+	}
 
 	DebugRenderScreen( m_screenCamera );
 
@@ -142,7 +158,7 @@ void GameFinalShowcase::Render() const
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::PrintDebugScreenMessage()
+void GameLoadFbxOnThread::PrintDebugScreenMessage()
 {
 	float fontSize = 15.f;
 	AABB2 cameraBounds( m_screenCamera.GetOrthographicBottomLeft(), m_screenCamera.GetOrthographicTopRight() );
@@ -167,7 +183,7 @@ void GameFinalShowcase::PrintDebugScreenMessage()
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::CreateObstacle()
+void GameLoadFbxOnThread::CreateObstacle()
 {
 	AABB3 vaultObstacle = AABB3( Vec3( 10.f, -20.f, 0.f ), Vec3( 11.5f, 0.f, 1.4f ) );
 	AABB3 vaultObstacle2 = AABB3( Vec3( 20.f, -30.f, 0.f ), Vec3( 30.f, -28.5f, 1.4f ) );
@@ -187,7 +203,7 @@ void GameFinalShowcase::CreateObstacle()
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::RenderObstacle() const
+void GameLoadFbxOnThread::RenderObstacle() const
 {
 	std::vector<Vertex_PCU> verts;
 
@@ -207,7 +223,7 @@ void GameFinalShowcase::RenderObstacle() const
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::InitLightConstants()
+void GameLoadFbxOnThread::InitLightConstants()
 {
 	m_lightControlClock = new Clock();
 	// m_sunRotation						 = Quaternion::MakeFromAxisOfRotationAndAngleDegrees( Vec3( 0.f, 1.f, 0.f ), 90.f );
@@ -226,7 +242,7 @@ void GameFinalShowcase::InitLightConstants()
 
 
 //----------------------------------------------------------------------------------------------------------
-void GameFinalShowcase::UpdateLightConstants()
+void GameLoadFbxOnThread::UpdateLightConstants()
 {
 	float deltaSeconds = m_lightControlClock->GetDeltaSeconds();
 
@@ -276,5 +292,57 @@ void GameFinalShowcase::UpdateLightConstants()
 	{
 		m_lightConstants.m_sunIntensity		-= 0.1f;
 		m_lightConstants.m_ambientIntensity += 0.1f;
+	}
+}
+
+
+
+//-------------------------------------------------------------------------------------------------
+void GameLoadFbxOnThread::StartLoadAnimationData()
+{
+	g_theDevConsole->ToggleOpen(true);
+	AnimationState::LoadAnimationStateFromXML( "Data/Animations/AnimConfig.xml" );
+}
+
+
+//-------------------------------------------------------------------------------------------------
+void GameLoadFbxOnThread::UpdateLoadedAnimationData()
+{
+	if ( m_isAllAnimationDataLoaded && m_isAllMeshDataLoaded )
+		return;
+
+	std::unordered_set<Job*> completedJobs = g_theJobSystem->RetrieveAllCompleteJobs();
+	for (auto iter = completedJobs.begin(); iter != completedJobs.end(); iter++)
+	{
+		Job* completedJob = *iter;
+		JobLoadAnimationClip* animationCompletedJob = dynamic_cast<JobLoadAnimationClip*>( completedJob );
+		if (animationCompletedJob)
+		{
+			AnimationState* state = AnimationState::s_animationStatesRegistery[ animationCompletedJob->m_stateName ];
+			state->m_clip		  = animationCompletedJob->m_animClip;
+			state->m_defaultPose  = animationCompletedJob->m_defaultPose;
+			state->m_blendTree	  = animationCompletedJob->m_blendTree;
+
+			m_statesLoaded++;
+		}
+		else
+		{
+			JobLoadCharacter* loadCharacterCompleted = dynamic_cast<JobLoadCharacter*>(completedJob);
+			if (loadCharacterCompleted)
+			{
+				m_isAllMeshDataLoaded = true;
+				DeferedStartupAfterLoadingMeshData();
+			}
+		}
+	}
+
+
+	if (!m_isAllAnimationDataLoaded)
+	{
+		if ( m_statesLoaded >= AnimationState::s_animationStatesRegistery.size() )
+		{
+			m_isAllAnimationDataLoaded = true;
+			DeferedStartupAfterLoadingAnimationData();
+		}
 	}
 }

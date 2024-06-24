@@ -1,6 +1,7 @@
 #include "Game/Game.hpp"
 #include "Game/App.hpp"
 
+#include "Engine/Core/JobSystem.hpp"
 #include "Engine/Renderer/Renderer.hpp"
 #include "Engine/Renderer/DebugRenderSystem.hpp"
 #include "Engine/Window/Window.hpp"
@@ -53,6 +54,11 @@ void App::Startup()
 	devConsoleConfig.m_renderer = g_theRenderer;
 	g_theDevConsole = new DevConsole(devConsoleConfig);
 
+	// create job system
+	JobSystemConfig jobSystemConfig;
+	g_theJobSystem = new JobSystem( jobSystemConfig );
+
+	g_theJobSystem->Startup();
 	g_theEventSystem->Startup();
 	g_theDevConsole->Startup();
 	AddGameKeyText();
@@ -100,6 +106,7 @@ void App::Shutdown()
 	g_theInput->Shutdown();
 	g_theEventSystem->Shutdown();
 	g_theDevConsole->Shutdown();
+	g_theJobSystem->Shutdown();
 
 	if (g_theGame != nullptr)
 	{
@@ -132,6 +139,7 @@ void App::BeginFrame()
 {
 	Clock::TickSystemClock();
 
+	g_theJobSystem->BeginFrame();
 	g_theInput->BeginFrame();
 	g_theWindow->BeginFrame();
 	g_theRenderer->BeginFrame();
@@ -225,6 +233,7 @@ void App::EndFrame()
 	g_theRenderer->EndFrame();
 	g_theDevConsole->EndFrame();
 	DebugRenderEndFrame();
+	g_theJobSystem->EndFrame();
 
 	if (g_theGame != nullptr)
 		g_theGame->EndFrame();

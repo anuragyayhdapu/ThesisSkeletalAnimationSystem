@@ -62,7 +62,7 @@ void Character::Startup()
 	InitRaycast();
 	InitDebugRootMotionTranslation();
 	CreateRootMotionTranslationGraphVerts();
-	LoadMeshData();
+	//LoadMeshData();
 }
 
 
@@ -1060,8 +1060,7 @@ void Character::RenderMeshData( AnimPose const& sampledPose ) const
 	}
 
 	// Bind pose mesh
-	GameFinalShowcase* game = dynamic_cast<GameFinalShowcase*>(g_theGame);
-	g_theRenderer->SetLightingConstatnts( game->m_lightConstants );
+	g_theRenderer->SetLightingConstatnts( *m_lightingConstants );
 	g_theRenderer->BindTexture( nullptr );
 	g_theRenderer->BindShader( m_spriteLitShader );
 	/*g_theRenderer->DrawVertexArrayPCUTBN( m_meshVerts );*/

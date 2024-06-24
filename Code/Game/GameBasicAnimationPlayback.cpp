@@ -39,7 +39,9 @@ void GameBasicAnimationPlayback::Startup()
 	// load fbx file
 	// fbxFileImporter = new FbxFileImporter( "Data/Animations/CarefulWalking.fbx" );
 	// fbxFileImporter = new FbxFileImporter( "Data/Animations/Granny_Skin_Jab_Cross.fbx" );
-	fbxFileImporter = new FbxFileImporter( "Data/Animations/Default/Default_Jab_Cross.fbx" );
+	//fbxFileImporter = new FbxFileImporter( "Data/Animations/Default/Default_Jab_Cross.fbx" );
+	fbxFileImporter = new FbxFileImporter( "Data/Animations/XBot/NinjaRun.fbx" );
+	fbxFileImporter->m_animClip->m_isLooping = true;
 	m_pose			= fbxFileImporter->m_restPose;
 
 	LogAnimationData();

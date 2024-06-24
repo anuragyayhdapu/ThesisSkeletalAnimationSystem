@@ -51,7 +51,8 @@ public:
 		VertexBuffer*			m_gpuVerts = nullptr;
 		std::vector<Vertex_PCU> m_cpuVerts = {};
 	};
-	Mesh		   m_mesh;
+	Mesh		    m_mesh;
+	LightConstants* m_lightingConstants = nullptr;
 
 	Mesh		   m_debugPositionMesh;
 	Mesh		   m_debugUnitVectorMesh;

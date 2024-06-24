@@ -2,6 +2,7 @@
 #include "Game/AnimationController.hpp"
 #include "Game/GameCommon.hpp"
 
+#include "Engine/Core/DevConsole.hpp"
 #include "Engine/Animation/AnimClip.hpp"
 #include "Engine/Animation/AnimBlendNode.hpp"
 #include "Engine/Animation/FbxFileImporter.hpp"
@@ -9,6 +10,22 @@
 #include "Engine/Core/ErrorWarningAssert.hpp"
 
 
+//----------------------------------------------------------------------------------------------------------
+void JobLoadAnimationClip::Execute()
+{
+	g_theDevConsole->AddLine( Rgba8::RED, Stringf( "loading (%i) %s: %s", m_jobNum, m_stateName.c_str(), m_clipFileName.c_str() ) );
+
+	m_animClip					   = AnimClip::LoadOrGetAnimationClip( m_clipFileName );
+	m_animClip->m_removeRootMotion = m_removeRootMotion;
+
+	FbxFileImporter::LoadRestPoseFromFile( "Data/Animations/XBot/TPose.fbx", m_defaultPose );
+
+	m_blendTree				= new AnimBlendTree();
+	AnimClipNode* clipNode	= new AnimClipNode( *m_animClip );
+	clipNode->m_sampledPose = m_defaultPose;
+
+	m_blendTree->m_rootNode = clipNode;
+}
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -27,11 +44,14 @@ Transition::Transition( XmlElement const& xmlElement )
 //----------------------------------------------------------------------------------------------------------
 AnimationState::AnimationState( XmlElement const& animStateElement )
 {
-	m_name					   = ParseXmlAttribute( animStateElement, "name", m_name );
-	std::string clipFilePath   = ParseXmlAttribute( animStateElement, "clip", "UNKOWN CLIP" );
-	m_clip					   = AnimClip::LoadOrGetAnimationClip( clipFilePath );
-	bool removeRootMotion	   = ParseXmlAttribute( animStateElement, "removeRootMotion", false );
-	m_clip->m_removeRootMotion = removeRootMotion;
+	m_name								   = ParseXmlAttribute( animStateElement, "name", m_name );
+	std::string			  clipFilePath	   = ParseXmlAttribute( animStateElement, "clip", "UNKOWN CLIP" );
+	bool				  removeRootMotion = ParseXmlAttribute( animStateElement, "removeRootMotion", false );
+	int					  stateNum		   = s_animationStatesRegistery.size() + 1;
+	JobLoadAnimationClip* newJob		   = new JobLoadAnimationClip( stateNum, m_name, clipFilePath, removeRootMotion );
+	g_theJobSystem->PostNewJob( newJob );
+	//m_clip					   = AnimClip::LoadOrGetAnimationClip( clipFilePath );
+	//m_clip->m_removeRootMotion = removeRootMotion;
 
 	XmlElement const* transitionElementRoot = animStateElement.FirstChildElement( "Transitions" );
 	if ( transitionElementRoot )
@@ -63,8 +83,8 @@ AnimationState::AnimationState( XmlElement const& animStateElement )
 		}
 	}
 
-	InitSampledPose();
-	InitBlendTree();
+	/*InitSampledPose();
+	InitBlendTree();*/
 }
 
 

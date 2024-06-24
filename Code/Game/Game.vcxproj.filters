@@ -118,6 +118,9 @@
     <ClCompile Include="GameFinalShowcase.cpp">
       <Filter>Modes</Filter>
     </ClCompile>
+    <ClCompile Include="GameLoadFbxOnThread.cpp">
+      <Filter>Modes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp">
@@ -202,6 +205,9 @@
       <Filter>Modes\Mesh &amp; Skinning</Filter>
     </ClInclude>
     <ClInclude Include="GameFinalShowcase.hpp">
+      <Filter>Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoadFbxOnThread.hpp">
       <Filter>Modes</Filter>
     </ClInclude>
   </ItemGroup>

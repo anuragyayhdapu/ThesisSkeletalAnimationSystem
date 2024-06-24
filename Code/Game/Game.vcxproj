@@ -113,6 +113,7 @@
     <ClCompile Include="AnimationController.cpp" />
     <ClCompile Include="GameFinalShowcase.cpp" />
     <ClCompile Include="GameLedgeGrabTest.cpp" />
+    <ClCompile Include="GameLoadFbxOnThread.cpp" />
     <ClCompile Include="GameLoadMesh.cpp" />
     <ClCompile Include="GameSkinning.cpp" />
     <ClCompile Include="GameVaultingTest.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="AnimationController.hpp" />
     <ClInclude Include="GameFinalShowcase.hpp" />
     <ClInclude Include="GameLedgeGrabTest.hpp" />
+    <ClInclude Include="GameLoadFbxOnThread.hpp" />
     <ClInclude Include="GameLoadMesh.hpp" />
     <ClInclude Include="GameSkinning.hpp" />
     <ClInclude Include="GameVaultingTest.hpp" />

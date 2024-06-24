@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Engine/Core/JobSystem.hpp"
 #include "Engine/Animation/AnimBlendTree.hpp"
 #include "Engine/Animation/AnimPose.hpp"
 #include "Engine/Animation/AnimCurve.hpp"
@@ -10,6 +11,29 @@
 #include <map>
 
 class AnimClip;
+
+
+//----------------------------------------------------------------------------------------------------------
+struct JobLoadAnimationClip : public Job
+{
+	int			   m_jobNum			  = 0;
+	std::string m_stateName		   = "";
+	AnimClip*	m_animClip		   = nullptr;
+	std::string m_clipFileName	   = "";
+	bool		m_removeRootMotion = false;
+	AnimPose	m_defaultPose;
+	AnimBlendTree* m_blendTree = nullptr;
+
+	JobLoadAnimationClip( int jobNum, std::string stateName, std::string clipFileName, bool removeRootMotion )
+		: m_jobNum(jobNum), m_stateName( stateName ), m_clipFileName( clipFileName ), m_removeRootMotion( removeRootMotion )
+	{
+		m_type = JobType::DISK_IO;
+	}
+
+	virtual ~JobLoadAnimationClip() {}
+
+	virtual void Execute() override;
+};
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -29,6 +53,7 @@ class AnimationState
 public:
 	AnimationState( XmlElement const& xmlElement );
 
+	bool							   m_isLoaded		  = false;
 	std::string						   m_name			  = "";
 	AnimClip*						   m_clip			  = nullptr;
 	std::map<std::string, Transition*> m_transitions	  = {};
@@ -61,7 +86,7 @@ public:
 
 	// animation blend tree
 	AnimBlendTree* GetBlendTree() const;
-protected:
+//protected:
 	AnimBlendTree* m_blendTree = nullptr;
 	void		   InitBlendTree();
 	void		   UpdateBlendTree();
