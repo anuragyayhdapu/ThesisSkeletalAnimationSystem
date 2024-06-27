@@ -154,6 +154,6 @@ public:
 	void											LoadMeshData();
 	void											RenderMeshData(AnimPose const& sampledPose) const;
 	AnimPose										m_bindPose;
-	bool											m_renderMesh = true;
+	bool											m_renderMesh = false;
 	void											ToggleMeshRender();
 };

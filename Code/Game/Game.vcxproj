@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />
     <ClCompile Include="GameFinalShowcase.cpp" />
+    <ClCompile Include="GameFixCameraIdleTurn.cpp" />
     <ClCompile Include="GameLedgeGrabTest.cpp" />
     <ClCompile Include="GameLoadFbxOnThread.cpp" />
     <ClCompile Include="GameLoadMesh.cpp" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="AnimationController.hpp" />
     <ClInclude Include="GameFinalShowcase.hpp" />
+    <ClInclude Include="GameFixCameraIdleTurn.hpp" />
     <ClInclude Include="GameLedgeGrabTest.hpp" />
     <ClInclude Include="GameLoadFbxOnThread.hpp" />
     <ClInclude Include="GameLoadMesh.hpp" />

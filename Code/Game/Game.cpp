@@ -1,3 +1,4 @@
+#include "Game/GameFixCameraIdleTurn.hpp"
 #include "Game/GameFinalShowcase.hpp"
 #include "Game/GameLoadFbxOnThread.hpp"
 #include "Game/GameSkinning.hpp"
@@ -55,6 +56,7 @@ Game* Game::CreateNewGameOfType( GameMode type )
 		case GAMEMODE_SKINNING:													return new GameSkinning();
 		case GAMEMODE_FINAL_SHOWCASE:											return new GameFinalShowcase();
 		case GAMEMODE_LOAD_FBX_THREAD:											return new GameLoadFbxOnThread();
+		case GAMEMODE_FIX_CAMERA_IDLE_TURN:										return new GameFixCameraIdleTurn();
 		default:
 		{
 			ERROR_AND_DIE( Stringf( "Error: GameMode #%i not set", type ) );

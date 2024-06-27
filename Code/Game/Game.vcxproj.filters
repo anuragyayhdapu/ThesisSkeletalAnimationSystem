@@ -121,6 +121,9 @@
     <ClCompile Include="GameLoadFbxOnThread.cpp">
       <Filter>Modes</Filter>
     </ClCompile>
+    <ClCompile Include="GameFixCameraIdleTurn.cpp">
+      <Filter>Modes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp">
@@ -208,6 +211,9 @@
       <Filter>Modes</Filter>
     </ClInclude>
     <ClInclude Include="GameLoadFbxOnThread.hpp">
+      <Filter>Modes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFixCameraIdleTurn.hpp">
       <Filter>Modes</Filter>
     </ClInclude>
   </ItemGroup>

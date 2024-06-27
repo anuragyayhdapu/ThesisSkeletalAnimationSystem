@@ -10,5 +10,5 @@ Character*			   g_theCharacter			  = nullptr; // Created and owned by Game
 
 
 //----------------------------------------------------------------------------------------------------------
-GameMode	   STARTUP_GAME_MODE   = GAMEMODE_LOAD_FBX_THREAD;
+GameMode	   STARTUP_GAME_MODE   = GAMEMODE_FIX_CAMERA_IDLE_TURN;
 DebugDrawState g_theDebugDrawState = DEBUGDRAW_NONE;
